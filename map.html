@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <title>日治時期清涼飲料水地圖</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v10.6.1/ol.css">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", Arial, sans-serif;
+    }
+
+    #map {
+      width: 100%;
+      height: 100vh;
+    }
+
+    /* 左上角：年代＋搜尋 */
+    .control-panel {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      background: white;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid #aaa;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+      z-index: 1000;
+      width: 320px;
+      font-size: 14px;
+    }
+
+    .control-panel h3 {
+      margin: 0 0 8px 0;
+      font-size: 16px;
+    }
+
+    .control-row {
+      margin: 8px 0;
+    }
+
+    #yearSlider {
+      width: 100%;
+    }
+
+    #searchInput {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 7px 8px;
+      border: 1px solid #aaa;
+      border-radius: 6px;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    #searchResults {
+      max-height: 130px;
+      overflow-y: auto;
+      margin-top: 6px;
+      border-top: 1px solid #eee;
+      padding-top: 4px;
+    }
+
+    .search-item {
+      padding: 6px 4px;
+      cursor: pointer;
+      border-radius: 5px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .search-item:hover {
+      background: #f2f2f2;
+    }
+
+    .search-name {
+      font-weight: bold;
+      line-height: 1.35;
+    }
+
+    .search-meta {
+      color: #666;
+      font-size: 12px;
+      margin-top: 2px;
+      line-height: 1.35;
+    }
+
+    /* 右側清單 */
+    .side-panel {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      width: 330px;
+      max-height: 86vh;
+      background: white;
+      border: 1px solid #aaa;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+      z-index: 1000;
+      font-size: 14px;
+      transition: transform 0.25s ease;
+      overflow: visible;
+    }
+
+    .side-panel.collapsed {
+      transform: translateX(330px);
+    }
+
+    .toggle-button {
+      position: absolute;
+      left: -92px;
+      top: 12px;
+      width: 92px;
+      padding: 7px 6px;
+      border: 1px solid #aaa;
+      border-right: none;
+      border-radius: 8px 0 0 8px;
+      background: white;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .side-content {
+      padding: 12px 14px;
+      max-height: 86vh;
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+
+    .side-content h3 {
+      margin: 0 0 4px 0;
+      font-size: 16px;
+    }
+
+    .side-note {
+      color: #777;
+      font-size: 12px;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .list-summary {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .place-list-item {
+      padding: 8px 6px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    .place-list-item:hover {
+      background: #f2f2f2;
+    }
+
+    .place-list-name {
+      font-weight: bold;
+      line-height: 1.35;
+    }
+
+    .place-list-meta {
+      color: #666;
+      font-size: 12px;
+      margin-top: 2px;
+      line-height: 1.35;
+    }
+
+    .type-badge {
+      display: inline-block;
+      padding: 1px 5px;
+      border-radius: 6px;
+      color: white;
+      font-size: 11px;
+      margin-right: 4px;
+    }
+
+    .badge-company { background: #2f80ed; }
+    .badge-shop { background: #27ae60; }
+    .badge-factory { background: #d35400; }
+
+    /* popup */
+    .popup {
+      background: white;
+      border: 1px solid #999;
+      border-radius: 8px;
+      padding: 10px;
+      min-width: 260px;
+      max-width: 340px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+      font-size: 14px;
+    }
+
+    .popup-title {
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .popup div {
+      margin: 2px 0;
+      line-height: 1.4;
+    }
+
+    /* 圖例 */
+    .legend {
+      position: absolute;
+      left: 12px;
+      bottom: 12px;
+      background: white;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #aaa;
+      font-size: 14px;
+      z-index: 1000;
+    }
+
+    .legend-row {
+      margin: 4px 0;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    .blue { background: #2f80ed; }
+    .green { background: #27ae60; }
+    .orange { background: #d35400; }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+
+  <!-- 左側：年代＋搜尋 -->
+  <div class="control-panel">
+    <h3>日治時期清涼飲料水地圖</h3>
+
+    <div class="control-row">
+      <strong>年代：</strong><span id="yearLabel">1930</span>
+      <input id="yearSlider" type="range" min="1895" max="1945" value="1930" step="1">
+    </div>
+
+    <div class="control-row">
+      <strong>搜尋廠商／販賣場所／製造所</strong>
+      <input id="searchInput" type="text" placeholder="輸入名稱、類型或飲料種類">
+      <div id="searchResults"></div>
+    </div>
+  </div>
+
+  <!-- 右側：當前年份清單 -->
+  <div class="side-panel collapsed" id="sidePanel">
+    <button id="toggleList" class="toggle-button">資料清單 ◀</button>
+
+    <div class="side-content">
+      <h3>目前年份資料</h3>
+      <div class="side-note">
+        依左側年代滑桿顯示地圖上存在的廠商／販賣場所／製造所。
+      </div>
+
+      <div id="listSummary" class="list-summary"></div>
+      <div id="placeList"></div>
+    </div>
+  </div>
+
+  <div id="popup" class="popup" style="display:none;"></div>
+
+  <div class="legend">
+    <div><strong>圖例</strong></div>
+    <div class="legend-row"><span class="dot blue"></span>廠商</div>
+    <div class="legend-row"><span class="dot green"></span>販賣場所</div>
+    <div class="legend-row"><span class="dot orange"></span>製造所</div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/ol@v10.6.1/dist/ol.js"></script>
+
+  <script>
+    /*
+      資料填寫方式：
+      - type 可填：廠商、販賣場所、製造所
+      - startYear / endYear 是存在年代區間
+      - 只知道單一年份時，startYear 和 endYear 填同一年
+      - lon 是經度，lat 是緯度
+    */
+    const places = [
+      {
+        id: 1,
+        name: "範例汽水商號",
+        type: "廠商",
+        startYear: 1925,
+        endYear: 1935,
+        drink: "汽水",
+        summary: "報紙廣告中出現的汽水販賣商號。",
+        source: "臺灣日日新報",
+        lon: 121.5107,
+        lat: 25.0566
+      },
+      {
+        id: 2,
+        name: "範例清涼飲料水販賣店",
+        type: "販賣場所",
+        startYear: 1930,
+        endYear: 1940,
+        drink: "清涼飲料水",
+        summary: "清涼飲料水販賣相關資料。",
+        source: "臺灣總督府府報",
+        lon: 120.2020,
+        lat: 22.9910
+      },
+      {
+        id: 3,
+        name: "範例ラムネ製造所",
+        type: "製造所",
+        startYear: 1915,
+        endYear: 1935,
+        drink: "ラムネ",
+        summary: "ラムネ製造或販賣相關資料。",
+        source: "臺灣日日新報",
+        lon: 121.7419,
+        lat: 25.1276
+      }
+    ];
+
+    const popupElement = document.getElementById("popup");
+    const yearSlider = document.getElementById("yearSlider");
+    const yearLabel = document.getElementById("yearLabel");
+    const searchInput = document.getElementById("searchInput");
+    const searchResults = document.getElementById("searchResults");
+    const placeList = document.getElementById("placeList");
+    const listSummary = document.getElementById("listSummary");
+    const sidePanel = document.getElementById("sidePanel");
+    const toggleList = document.getElementById("toggleList");
+
+    const overlay = new ol.Overlay({
+      element: popupElement,
+      positioning: "bottom-center",
+      stopEvent: false,
+      offset: [0, -12]
+    });
+
+    const baseLayer = new ol.layer.Tile({
+      source: new ol.source.OSM()
+    });
+
+    const placesSource = new ol.source.Vector();
+
+    const placesLayer = new ol.layer.Vector({
+      source: placesSource
+    });
+
+    const map = new ol.Map({
+      target: "map",
+      layers: [baseLayer, placesLayer],
+      overlays: [overlay],
+      view: new ol.View({
+        center: ol.proj.fromLonLat([120.9, 23.8]),
+        zoom: 7.3
+      })
+    });
+
+    function getColor(type) {
+      if (type === "製造所") return "#d35400";
+      if (type === "販賣場所") return "#27ae60";
+      return "#2f80ed";
+    }
+
+    function getBadgeClass(type) {
+      if (type === "製造所") return "badge-factory";
+      if (type === "販賣場所") return "badge-shop";
+      return "badge-company";
+    }
+
+    function isActiveInYear(place, year) {
+      return place.startYear <= year && year <= place.endYear;
+    }
+
+    function matchesKeyword(place, keyword) {
+      if (!keyword) return false;
+
+      const text = [
+        place.name,
+        place.type,
+        place.drink,
+        place.summary,
+        place.source,
+        String(place.startYear),
+        String(place.endYear)
+      ].join(" ").toLowerCase();
+
+      return text.includes(keyword.toLowerCase());
+    }
+
+    function placeToFeature(place) {
+      const feature = new ol.Feature({
+        geometry: new ol.geom.Point(ol.proj.fromLonLat([place.lon, place.lat])),
+        ...place
+      });
+
+      feature.setStyle(new ol.style.Style({
+        image: new ol.style.Circle({
+          radius: 7,
+          fill: new ol.style.Fill({
+            color: getColor(place.type)
+          }),
+          stroke: new ol.style.Stroke({
+            color: "#ffffff",
+            width: 2
+          })
+        })
+      }));
+
+      return feature;
+    }
+
+    function getActivePlacesByYear() {
+      const selectedYear = Number(yearSlider.value);
+      return places.filter(place => isActiveInYear(place, selectedYear));
+    }
+
+    function updateMap() {
+      const selectedYear = Number(yearSlider.value);
+      yearLabel.textContent = selectedYear;
+
+      popupElement.style.display = "none";
+      placesSource.clear();
+
+      const activePlaces = getActivePlacesByYear();
+      const features = activePlaces.map(placeToFeature);
+      placesSource.addFeatures(features);
+    }
+
+    function updateRightList() {
+      const selectedYear = Number(yearSlider.value);
+      const activePlaces = getActivePlacesByYear();
+
+      placeList.innerHTML = "";
+      listSummary.textContent = `${selectedYear} 年地圖上共有 ${activePlaces.length} 筆資料`;
+
+      if (activePlaces.length === 0) {
+        placeList.innerHTML = "<div style='color:#777;'>此年份沒有資料</div>";
+        return;
+      }
+
+      activePlaces.forEach(place => {
+        const item = document.createElement("div");
+        item.className = "place-list-item";
+
+        item.innerHTML = `
+          <div class="place-list-name">
+            <span class="type-badge ${getBadgeClass(place.type)}">${place.type}</span>
+            ${place.name}
+          </div>
+          <div class="place-list-meta">
+            ${place.drink}｜${place.startYear}–${place.endYear}
+          </div>
+        `;
+
+        item.addEventListener("click", function() {
+          focusPlaceOnCurrentMap(place.id);
+        });
+
+        placeList.appendChild(item);
+      });
+    }
+
+    function updateSearchResults() {
+      const keyword = searchInput.value.trim();
+      searchResults.innerHTML = "";
+
+      if (!keyword) return;
+
+      // 搜尋所有年份，不受年代滑桿限制
+      const matchedPlaces = places.filter(place => matchesKeyword(place, keyword));
+
+      if (matchedPlaces.length === 0) {
+        searchResults.innerHTML = "<div style='color:#777;'>沒有符合的資料</div>";
+        return;
+      }
+
+      matchedPlaces.forEach(place => {
+        const item = document.createElement("div");
+        item.className = "search-item";
+
+        item.innerHTML = `
+          <div class="search-name">${place.name}</div>
+          <div class="search-meta">
+            ${place.type}｜${place.drink}｜${place.startYear}–${place.endYear}
+          </div>
+        `;
+
+        item.addEventListener("click", function() {
+          focusPlaceFromSearch(place);
+        });
+
+        searchResults.appendChild(item);
+      });
+    }
+
+    function updateMapAndLists() {
+      updateMap();
+      updateRightList();
+      updateSearchResults();
+    }
+
+    function showPopup(feature) {
+      const coordinates = feature.getGeometry().getCoordinates();
+
+      popupElement.innerHTML = `
+        <div class="popup-title">${feature.get("name")}</div>
+        <div>類型：${feature.get("type") || ""}</div>
+        <div>存在年代：${feature.get("startYear")}–${feature.get("endYear")}</div>
+        <div>飲料種類：${feature.get("drink") || ""}</div>
+        <div>摘要：${feature.get("summary") || ""}</div>
+        <div>來源：${feature.get("source") || ""}</div>
+      `;
+
+      popupElement.style.display = "block";
+      overlay.setPosition(coordinates);
+    }
+
+    function focusPlaceOnCurrentMap(placeId) {
+      const feature = placesSource.getFeatures().find(f => f.get("id") === placeId);
+      if (!feature) return;
+
+      const coordinates = feature.getGeometry().getCoordinates();
+
+      map.getView().animate({
+        center: coordinates,
+        zoom: 14,
+        duration: 500
+      });
+
+      showPopup(feature);
+    }
+
+    function focusPlaceFromSearch(place) {
+      const selectedYear = Number(yearSlider.value);
+
+      // 搜尋結果不受年份限制；點選後若該點不在目前年份，就自動切到起始年
+      if (!isActiveInYear(place, selectedYear)) {
+        yearSlider.value = place.startYear;
+        yearLabel.textContent = place.startYear;
+        updateMap();
+        updateRightList();
+      }
+
+      focusPlaceOnCurrentMap(place.id);
+    }
+
+    map.on("singleclick", function(event) {
+      const feature = map.forEachFeatureAtPixel(event.pixel, function(feature) {
+        return feature;
+      });
+
+      if (!feature) {
+        popupElement.style.display = "none";
+        return;
+      }
+
+      showPopup(feature);
+    });
+
+    yearSlider.addEventListener("input", updateMapAndLists);
+    searchInput.addEventListener("input", updateSearchResults);
+
+    toggleList.addEventListener("click", function() {
+      sidePanel.classList.toggle("collapsed");
+
+      if (sidePanel.classList.contains("collapsed")) {
+        toggleList.textContent = "資料清單 ◀";
+      } else {
+        toggleList.textContent = "資料清單 ▶";
+      }
+    });
+
+    updateMapAndLists();
+  </script>
+</body>
+</html>
