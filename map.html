@@ -293,39 +293,445 @@
     const places = [
       {
         id: 1,
-        name: "範例汽水商號",
-        type: "廠商",
+        name: "進馨商會",
+        type: "製造所",
+        originalType: "商會 / 製造所",
         startYear: 1925,
-        endYear: 1935,
-        drink: "汽水",
-        summary: "報紙廣告中出現的汽水販賣商號。",
-        source: "臺灣日日新報",
-        lon: 121.5107,
-        lat: 25.0566
+        endYear: 1936,
+        drink: "碳酸飲料",
+        summary: "1925年由張文杞、張有盛等七人合資頂下「尼可尼可商會」成立。1931年推出「黑松」商標。1936年改組為合名會社。",
+        source: "國立臺灣歷史博物館典藏網",
+        lon: 121.521,
+        lat: 25.0524
       },
       {
         id: 2,
-        name: "範例清涼飲料水販賣店",
-        type: "販賣場所",
-        startYear: 1930,
-        endYear: 1940,
-        drink: "清涼飲料水",
-        summary: "清涼飲料水販賣相關資料。",
-        source: "臺灣總督府府報",
-        lon: 120.2020,
-        lat: 22.9910
+        name: "進馨飲料合名會社",
+        type: "製造所",
+        originalType: "製造所",
+        startYear: 1936,
+        endYear: 1945,
+        drink: "碳酸飲料",
+        summary: "1925 年創立，1936 年於中崙購地建廠並註冊「黑松」商標，為今日黑松汽水前身。",
+        source: "國立臺灣歷史博物館典藏網",
+        lon: 121.5436,
+        lat: 25.0489
       },
       {
         id: 3,
-        name: "範例ラムネ製造所",
+        name: "高砂麥酒株式會社",
         type: "製造所",
+        originalType: "製造所",
+        startYear: 1919,
+        endYear: 1945,
+        drink: "啤酒為主",
+        summary: "創立於 1919 年，1920 年 4 月落成，為臺灣第一座、日治時期唯一的啤酒製造廠。",
+        source: "維基百科、財政部財政史料陳列室",
+        lon: 121.5347,
+        lat: 25.0469
+      },
+      {
+        id: 4,
+        name: "七星汽水廠（七星涼水廠）",
+        type: "製造所",
+        originalType: "汽水廠",
+        startYear: 1928,
+        endYear: 1945,
+        drink: "彈珠汽水",
+        summary: "臺灣第一家汽水廠，利用蘇澳天然冷泉製造碳酸飲料。",
+        source: "台鵠",
+        lon: 121.8519,
+        lat: 24.5993
+      },
+      {
+        id: 5,
+        name: "辰馬商會",
+        type: "廠商",
+        originalType: "商會",
+        startYear: 1929,
+        endYear: 1945,
+        drink: "荷蘭水（即彈珠汽水）",
+        summary: "原為日本兵庫縣西宮酒商（白鹿牌），在臺設有分支，辦理販售清涼飲料水之荷蘭水。",
+        source: "台鵠",
+        lon: 121.5133,
+        lat: 25.0455
+      },
+      {
+        id: 6,
+        name: "錦泉飲料株式會社",
+        type: "製造所",
+        originalType: "製造所",
+        startYear: 1920,
+        endYear: 1945,
+        drink: "碳酸飲料",
+        summary: "",
+        source: "國立臺灣歷史博物館",
+        lon: 121.5279,
+        lat: 25.0279
+      },
+      {
+        id: 7,
+        name: "義泉汽水廠",
+        type: "製造所",
+        originalType: "製造所",
+        startYear: 1913,
+        endYear: 1945,
+        drink: "碳酸飲料",
+        summary: "松鹿沙士汽水商標所示之生產地。",
+        source: "國立臺灣歷史博物館",
+        lon: 120.7942,
+        lat: 24.4802
+      },
+      {
+        id: 8,
+        name: "尼可尼可商會",
+        type: "廠商",
+        originalType: "商會",
+        startYear: 1904,
+        endYear: 1925,
+        drink: "彈珠汽水",
+        summary: "黑松（進馨）的「前身」，整個臺灣本土汽水產業的起點之一。",
+        source: "文化部典藏網",
+        lon: 121.5127,
+        lat: 25.0498
+      },
+      {
+        id: 9,
+        name: "丸三商店",
+        type: "製造所",
+        originalType: "汽水廠",
+        startYear: 1910,
+        endYear: 1945,
+        drink: "碳酸飲料",
+        summary: "夏季製造彈珠汽水（主要供應討伐土匪的軍隊），冬季賣副食物與雜貨。每日平均製造 1,500 - 1,600 瓶。藥舖兼營汽水，反映清涼飲料水的「藥用」起源。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 120.6805,
+        lat: 24.1414
+      },
+      {
+        id: 10,
+        name: "高進商會",
+        type: "製造所",
+        originalType: "商會 / 製造所",
+        startYear: 1895,
+        endYear: 1945,
+        drink: "彈珠汽水",
+        summary: "在臺製造彈珠汽水的始祖之一。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 121.5111,
+        lat: 25.0466
+      },
+      {
+        id: 11,
+        name: "臺灣製冰株式會社",
+        type: "製造所",
+        originalType: "製造所",
+        startYear: 1909,
+        endYear: 1945,
+        drink: "碳酸飲料、冰品",
+        summary: "在臺製冰大型會社，兼營清涼飲料水製造販賣，是當時北部重要的冰品與汽水供應商。製冰業常兼營汽水製造，因兩者生產設備與冷藏需求相通。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 121.518,
+        lat: 25.042
+      },
+      {
+        id: 12,
+        name: "臺北ラムネ合資會社",
+        type: "製造所",
+        originalType: "商會 / 製造所",
+        startYear: 1900,
+        endYear: 1938,
+        drink: "碳酸飲料",
+        summary: "臺北的彈珠汽水製造合資會社，以製造ラムネ（彈珠汽水）為主，兼營販賣。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 121.512,
+        lat: 25.056
+      },
+      {
+        id: 13,
+        name: "新高サイダー株式會社",
+        type: "製造所",
+        originalType: "製造所 / 株式會社",
         startYear: 1915,
-        endYear: 1935,
-        drink: "ラムネ",
-        summary: "ラムネ製造或販賣相關資料。",
-        source: "臺灣日日新報",
-        lon: 121.7419,
-        lat: 25.1276
+        endYear: 1938,
+        drink: "碳酸飲料",
+        summary: "臺北的サイダー（蘋果風味汽水）製造株式會社。「新高」為日治時期常用名稱（取自玉山日文舊名「新高山」）。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 121.525,
+        lat: 25.059
+      },
+      {
+        id: 14,
+        name: "捷美商行",
+        type: "製造所",
+        originalType: "商會 / 製造所",
+        startYear: 1910,
+        endYear: 1945,
+        drink: "碳酸飲料",
+        summary: "兼營製造與販賣的商行，商號為漢式。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 121.53,
+        lat: 25.05
+      },
+      {
+        id: 15,
+        name: "松尾商會",
+        type: "製造所",
+        originalType: "商會 / 製造所",
+        startYear: 1905,
+        endYear: 1945,
+        drink: "碳酸飲料",
+        summary: "臺南的清涼飲料水製造商會，兼營製造與販賣。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 120.203,
+        lat: 22.992
+      },
+      {
+        id: 16,
+        name: "三村商店",
+        type: "製造所",
+        originalType: "商店 / 製造所",
+        startYear: 1910,
+        endYear: 1945,
+        drink: "碳酸飲料",
+        summary: "兼營製造與販賣的清涼飲料水商店，日式商號。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 121.54,
+        lat: 25.047
+      },
+      {
+        id: 17,
+        name: "菊元百貨",
+        type: "販賣場所",
+        originalType: "百貨 / 食堂",
+        startYear: 1932,
+        endYear: 1945,
+        drink: "",
+        summary: "1932 年開業，臺灣第一間百貨公司。設有食堂販售清涼飲料水、冰品。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 121.5128,
+        lat: 25.0432
+      },
+      {
+        id: 18,
+        name: "カフェー・ライオン（Café Lion）",
+        type: "販賣場所",
+        originalType: "喫茶店",
+        startYear: 1912,
+        endYear: 1945,
+        drink: "",
+        summary: "日治時期臺北高級咖啡店代表，販售各式咖啡、汽水、冰淇淋蘇打。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 121.5135,
+        lat: 25.044
+      },
+      {
+        id: 19,
+        name: "西尾商店",
+        type: "販賣場所",
+        originalType: "商店",
+        startYear: 1910,
+        endYear: 1945,
+        drink: "",
+        summary: "榮町商業區內販售清涼飲料水的商店。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 121.514,
+        lat: 25.0428
+      },
+      {
+        id: 20,
+        name: "盛進商行",
+        type: "廠商",
+        originalType: "商行 / 食料品販賣",
+        startYear: 1900,
+        endYear: 1945,
+        drink: "",
+        summary: "日人經營的食料品商行，販售清涼飲料水、洋酒等進口商品。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 121.5115,
+        lat: 25.0455
+      },
+      {
+        id: 21,
+        name: "維特咖啡店",
+        type: "販賣場所",
+        originalType: "喫茶店",
+        startYear: 1931,
+        endYear: 1945,
+        drink: "",
+        summary: "1931 年由楊承基開設，本島人文化沙龍代表。販售咖啡、汽水、冰品。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 121.5103,
+        lat: 25.056
+      },
+      {
+        id: 22,
+        name: "波麗路餐廳",
+        type: "販賣場所",
+        originalType: "餐廳",
+        startYear: 1936,
+        endYear: 1945,
+        drink: "",
+        summary: "1934 年開業，本島人摩登餐廳代表，至今仍營業。販售西式餐點與清涼飲料。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 121.512,
+        lat: 25.0569
+      },
+      {
+        id: 23,
+        name: "山水亭",
+        type: "販賣場所",
+        originalType: "餐廳",
+        startYear: 1939,
+        endYear: 1945,
+        drink: "",
+        summary: "本島人文化人士聚集場所，王井泉經營。販售臺菜與清涼飲料。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 121.5105,
+        lat: 25.0565
+      },
+      {
+        id: 24,
+        name: "天馬茶房",
+        type: "販賣場所",
+        originalType: "喫茶店",
+        startYear: 1941,
+        endYear: 1945,
+        drink: "",
+        summary: "詹天馬經營的本島人喫茶店，文化沙龍。販售咖啡、汽水。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 121.511,
+        lat: 25.057
+      },
+      {
+        id: 25,
+        name: "太和堂藥房",
+        type: "販賣場所",
+        originalType: "藥房 / 雜貨販賣",
+        startYear: 1921,
+        endYear: 1945,
+        drink: "",
+        summary: "李英經營的西藥房，藥種商兼營雜貨，同時販售清涼飲料水（藥用蘇打水）。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 121.5128,
+        lat: 25.0572
+      },
+      {
+        id: 26,
+        name: "屈臣氏大藥房",
+        type: "販賣場所",
+        originalType: "藥房 / 雜貨販賣",
+        startYear: 1917,
+        endYear: 1945,
+        drink: "",
+        summary: "販售西藥與清涼飲料水。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 121.5099,
+        lat: 25.0548
+      },
+      {
+        id: 27,
+        name: "臺中驛前商店街",
+        type: "販賣場所",
+        originalType: "商店街",
+        startYear: 1908,
+        endYear: 1945,
+        drink: "",
+        summary: "臺中車站前商店街，含多家販售清涼飲料水的雜貨店與食堂。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 120.6839,
+        lat: 24.1394
+      },
+      {
+        id: 28,
+        name: "中央書局",
+        type: "販賣場所",
+        originalType: "書店 / 喫茶店",
+        startYear: 1927,
+        endYear: 1945,
+        drink: "",
+        summary: "1927 年由臺灣文化協會人士創立，本島人文化沙龍。設有喫茶部。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 120.6811,
+        lat: 24.141
+      },
+      {
+        id: 29,
+        name: "林百貨",
+        type: "販賣場所",
+        originalType: "百貨 / 食堂",
+        startYear: 1932,
+        endYear: 1945,
+        drink: "",
+        summary: "1932 年開業，南臺灣第一間百貨公司，與菊元並稱「南北雙塔」。頂樓設食堂販售清涼飲料水。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 120.2025,
+        lat: 22.992
+      },
+      {
+        id: 30,
+        name: "鶯料理",
+        type: "販賣場所",
+        originalType: "料理屋 / 喫茶店",
+        startYear: 1923,
+        endYear: 1945,
+        drink: "",
+        summary: "臺南高級日式料理屋，政商名流聚會場所。販售日本酒與清涼飲料水。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 120.2046,
+        lat: 22.9937
+      },
+      {
+        id: 31,
+        name: "山形屋",
+        type: "販賣場所",
+        originalType: "書店 / 雜貨販賣",
+        startYear: 1902,
+        endYear: 1945,
+        drink: "",
+        summary: "日人經營的書店兼雜貨，販售清涼飲料水。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 120.2731,
+        lat: 22.6202
+      },
+      {
+        id: 32,
+        name: "哈瑪星商店街",
+        type: "販賣場所",
+        originalType: "商店街",
+        startYear: 1908,
+        endYear: 1945,
+        drink: "",
+        summary: "日治時期高雄都市發展核心，商店街密集，含多家販售清涼飲料水的雜貨店與食堂。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 120.2741,
+        lat: 22.6201
+      },
+      {
+        id: 33,
+        name: "基隆驛前商店街",
+        type: "販賣場所",
+        originalType: "商店街",
+        startYear: 1908,
+        endYear: 1945,
+        drink: "",
+        summary: "基隆港都市核心，商店街密集，販售清涼飲料水的場所眾多。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 121.7392,
+        lat: 25.1331
+      },
+      {
+        id: 34,
+        name: "顏家委託行",
+        type: "廠商",
+        originalType: "商行",
+        startYear: 1914,
+        endYear: 1945,
+        drink: "",
+        summary: "基隆顏家經營，販售各式商品含清涼飲料水。",
+        source: "林佳慧,〈清涼一夏！日治時期的碳酸飲料－以彈珠汽水為例〉",
+        lon: 121.7521,
+        lat: 25.1295
       }
     ];
 
@@ -459,7 +865,7 @@
             ${place.name}
           </div>
           <div class="place-list-meta">
-            ${place.drink}｜${place.startYear}–${place.endYear}
+            ${place.drink ? `${place.drink}｜` : ""}${place.startYear}–${place.endYear}
           </div>
         `;
 
@@ -492,7 +898,7 @@
         item.innerHTML = `
           <div class="search-name">${place.name}</div>
           <div class="search-meta">
-            ${place.type}｜${place.drink}｜${place.startYear}–${place.endYear}
+            ${place.type}｜${place.drink ? `${place.drink}｜` : ""}${place.startYear}–${place.endYear}
           </div>
         `;
 
@@ -515,9 +921,9 @@
 
       popupElement.innerHTML = `
         <div class="popup-title">${feature.get("name")}</div>
-        <div>類型：${feature.get("type") || ""}</div>
+        <div>類型：${feature.get("type") || ""}${feature.get("originalType") ? `（原始分類：${feature.get("originalType")}）` : ""}</div>
         <div>存在年代：${feature.get("startYear")}–${feature.get("endYear")}</div>
-        <div>飲料種類：${feature.get("drink") || ""}</div>
+        ${feature.get("drink") ? `<div>飲料種類：${feature.get("drink")}</div>` : ""}
         <div>摘要：${feature.get("summary") || ""}</div>
         <div>來源：${feature.get("source") || ""}</div>
       `;
